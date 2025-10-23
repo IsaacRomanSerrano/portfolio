@@ -110,7 +110,7 @@ La siguiente política permite acceso público de solo lectura a los objetos del
 
 ## Uso
 
-1. Clona el repositorio: `git clone <URL_DEL_REPOSITORIO>`
+1. Clona el repositorio: `git clone [<URL_DEL_REPOSITORIO>`](https://github.com/IsaacRomanSerrano/portfolio/)
 2. Instala dependencias: `npm install`
 3. Construye el proyecto: `npm run build`
 4. Despliega los archivos generados en `/dist` al bucket S3.
