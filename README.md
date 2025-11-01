@@ -47,107 +47,74 @@ graph TD
     F[Route 53] -->|DNS| B
     G[ACM: SSL Certificate] --> B
 ```
-⚙️ Implementation Steps
 
-Frontend Build
+---
 
-Generate static files using Vite (npm run build).
+## ⚙️ Implementation Steps
 
-S3 Configuration
+1. **Frontend Build**
+   - Generate static files using Vite (`npm run build`).
 
-Create bucket portfolio-isaac-cloud → enable Static Website Hosting.
+2. **S3 Configuration**
+   - Create bucket `portfolio-isaac-cloud` → enable *Static Website Hosting*.
+   - Set `index.html` as root document.
 
-Set index.html as root document.
+3. **Upload**
+   - Upload `/dist` contents to S3.
 
-Upload
+4. **Bucket Policy**
+   - Apply public read-only policy:
 
-Upload /dist contents to S3.
+     ```json
+     {
+         "Version": "2012-10-17",
+         "Statement": [
+             {
+                 "Effect": "Allow",
+                 "Principal": "*",
+                 "Action": "s3:GetObject",
+                 "Resource": "arn:aws:s3:::portfolio-isaac-cloud/*"
+             }
+         ]
+     }
+     ```
 
-Bucket Policy
+5. **ACM Certificate**
+   - Request SSL certificate for `isaacromanserrano.dev` with DNS validation.
 
-Apply public read-only policy:
+6. **DNS Validation**
+   - Add CNAME record from ACM into DNS provider (Namecheap).
 
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::portfolio-isaac-cloud/*"
-        }
-    ]
-}
+7. **CloudFront Distribution**
+   - Origin: S3 bucket.  
+   - Alternate Domain: `isaacromanserrano.dev`.  
+   - SSL: ACM certificate.
 
+8. **Route 53 Configuration**
+   - Create hosted zone and A record alias to CloudFront distribution.
 
-ACM Certificate
+---
 
-Request SSL certificate for isaacromanserrano.dev with DNS validation.
+## 🔒 SSL Validation Process
 
-DNS Validation
+- Certificate requested from **AWS Certificate Manager (ACM)**.  
+- DNS validation through **CNAME** record at Namecheap.  
+- Issued automatically after propagation (~5 minutes).
 
-Add CNAME record from ACM into DNS provider (Namecheap).
+---
 
-CloudFront Distribution
+## 🌍 CloudFront + Route 53 Setup
 
-Origin: S3 bucket.
+- CloudFront caches content in edge locations globally.  
+- Route 53 manages the domain’s DNS resolution and connects it to CloudFront.  
+- Combined, they ensure high availability, low latency, and HTTPS security.
 
-Alternate Domain: isaacromanserrano.dev.
+---
 
-SSL: ACM certificate.
+## 🚀 Usage
 
-Route 53 Configuration
-
-Create hosted zone and A record alias to CloudFront distribution.
-
-🔒 SSL Validation Process
-
-Certificate requested from AWS Certificate Manager (ACM).
-
-DNS validation through CNAME record at Namecheap.
-
-Issued automatically after propagation (~5 minutes).
-
-🌍 CloudFront + Route 53 Setup
-
-CloudFront caches content in edge locations globally.
-
-Route 53 manages the domain’s DNS resolution and connects it to CloudFront.
-
-Combined, they ensure high availability, low latency, and HTTPS security.
-
-🚀 Usage
+```bash
 git clone https://github.com/IsaacRomanSerrano/portfolio.git
 cd portfolio
 npm install
 npm run build
-
-
-Deploy /dist contents to your S3 bucket and access:
-➡️ https://isaacromanserrano.dev
-
-🧾 Results and Key Takeaways
-
-⚡ Fast global delivery through CloudFront edge caching.
-
-💰 Low-cost hosting (under $1/month).
-
-🧩 Scalable serverless architecture.
-
-🔒 Fully secured with HTTPS and DNS validation.
-
-🤝 Contributing
-
-Contributions are welcome!
-
-Fork the repo
-
-Create a branch: git checkout -b feature/your-feature
-
-Commit and push your changes
-
-Open a Pull Request
-
-📜 License
-
-This project is open-source and available under the MIT License.
