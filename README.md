@@ -46,6 +46,7 @@ graph TD
     B --> C[S3 Bucket: Static Website Files]
     F[Route 53] -->|DNS| B
     G[ACM: SSL Certificate] --> B
+```
 ⚙️ Implementation Steps
 
 Frontend Build
