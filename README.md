@@ -118,3 +118,23 @@ git clone https://github.com/IsaacRomanSerrano/portfolio.git
 cd portfolio
 npm install
 npm run build
+```
+
+---
+
+## 🧾 Results and Key Takeaways
+
+⚡ Fast global delivery through CloudFront edge caching.
+
+💰 Low-cost hosting (under $1/month).
+
+🧩 Scalable serverless architecture.
+
+🔒 Fully secured with HTTPS and DNS validation.
+
+---
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
+
